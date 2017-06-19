@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>svg 动画</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no">
+	<meta name="x5-fullscreen" content="true">
+	<meta name="full-screen" content="yes">
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		.aaaa {
+			clear: both;
+		}
+		.ok {
+			float: right;
+		}
+		.bb {
+			float: left;
+		}
+		.ak {
+			display: block;
+			margin-top: .1rem;
+		}
+		.clear {
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+	<h3>1、会动的圆</h3>
+	<svg width="400" height="400">
+		<circle cx="200" cy="200" r="50" style="fill:#ff6600">
+			<animate 
+				attributeName="r"
+				attributeType="XML"
+				from="50"
+				to="80"
+				begin="0s"
+				dur="2s"
+				repeatCount="indefinite"
+				values="50;80;50"
+			/>
+			<!-- fill="freeze" 动画结束停在最后一帧 -->
+			<animate 
+				attributeName="fill-opacity"
+				attributeType="CSS"
+				begin="0s"
+				dur="2s"
+				repeatCount="indefinite"
+				values="1;0.6;1"
+			/>
+		</circle>	
+	</svg>
+	<h3>2、一排圆一个接一个</h3>
+	<svg width="800" height="400">
+		<circle cx="100" cy="100" r="30" style="fill:#d8210d">
+			<animate id="a1" attributeName="r" attributeType="XML" from="0" to="30" begin="0s" dur=".2s" fill="freeze" />
+		</circle>
+		<circle cx="150" cy="100" r="30" style="fill:#ff0000">
+			<animate id="a2" attributeName="r" attributeType="XML" from="0" to="30" begin="a1.end" dur=".2s" fill="freeze" />
+		</circle>
+		<circle cx="200" cy="100" r="30" style="fill:#ffff00">
+			<animate id="a3" attributeName="r" attributeType="XML" from="0" to="30" begin="a2.end" dur=".2s" fill="freeze" />
+		</circle>
+		<circle cx="250" cy="100" r="30" style="fill:#00ff00">
+			<animate id="a3" attributeName="r" attributeType="XML" from="0" to="30" begin="a3.end" dur=".2s" fill="freeze" />
+		</circle>	
+	</svg>
+	<h3>3、五角星动画</h3>
+	<svg width="800" height="400">
+		<polygon points="122 59, 72 205, 194 114, 49 114, 171 205" style="fill: #ff6600">
+			<animateTransform
+				attributeName="transform"
+				attributeType="XML"
+				type="rotate"
+				from="0 125 135"
+				to="360 125 135"
+				begin="0s"
+				dur="5s"
+				repeatCount="indefinite"
+			/>
+		</polygon>
+	</svg>
+	<h3>4、五角星环绕圆圈</h4>
+	<svg width="800" height="400">
+		<path d="M100 100, A120 120, -45 0 1, 300 300 A120 120, -45 0 1, 100 100" stroke="#ccc" stroke-width="2" fill="none"/>
+		<polygon points="-12 -69, -58 85, 64 -14, -81 -14, -81 -14, 41 85" style="fill: #ff6600;">
+			<animateMotion 
+				dur="6s"
+				repeatCount="indefinite"
+				path="M100 100, A120 120, -45 0 1, 300 300 A120 120, -45 0 1, 100 100"
+			/>
+		</polygon>
+	</svg>
+	<h3>5、SVG滤镜阴影</h3>
+	<svg x="0px" y="0px" width="220" height="220">
+	    <defs>
+	        <g id="cvm">
+	            <path fill="#0085F6" class="st2" d="M109.2,165c-34.8,0-63-28.2-63-63s28.2-63,63-63c33.1,0,60.2,25.5,62.8,58h3c-2.6-34.1-31-61-65.8-61
+	                c-36.5,0-66,29.5-66,66s29.5,66,66,66c34.8,0,63.2-26.9,65.8-61h-3C169.4,139.5,142.3,165,109.2,165z M142.2,115V85v-2v-1l-33-20
+	                l-33,20v1v2v30v3L99,131.8c0.3-0.8,0.8-1.5,1.3-2.2l-21.1-12.8v-30l30,18.2l30-18.2v30L113,132.7c-0.9-1-2.2-1.7-3.8-1.7
+	                c-2.8,0-5,2.2-5,5s2.2,5,5,5s5-2.2,5-5c0-0.3,0-0.7-0.1-1l28.1-17L142.2,115L142.2,115z M139.2,83.8l-30,18.2l-30-18.2v-0.6
+	                l30-18.2l30,18.2V83.8z"></path>
+	        </g>
+	        <filter id="shadow">
+	        	<feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"></feGaussianBlur>
+	        	<feOffset in="blur" dx="4" dy="4" result="offset"></feOffset>
+		        <feMerge>
+			        <feMergeNode in="offset"></feMergeNode>
+			        <feMergeNode in="SourceGraphic"></feMergeNode>
+		        </feMerge>
+	        </filter>
+	    </defs>
+	    <g id="test" filter="url(#shadow)">
+	        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cvm" x="0" y="0"></use>
+	    </g>
+	</svg>
+	<h3>6、创建svg滤镜上色</h3>
+	<svg x="0px" y="0px" width="220" height="220" style="background: #000">
+	    <defs>
+	        <g id="cvm">
+	            <path fill="#0085F6" class="st2" d="M109.2,165c-34.8,0-63-28.2-63-63s28.2-63,63-63c33.1,0,60.2,25.5,62.8,58h3c-2.6-34.1-31-61-65.8-61
+	                c-36.5,0-66,29.5-66,66s29.5,66,66,66c34.8,0,63.2-26.9,65.8-61h-3C169.4,139.5,142.3,165,109.2,165z M142.2,115V85v-2v-1l-33-20
+	                l-33,20v1v2v30v3L99,131.8c0.3-0.8,0.8-1.5,1.3-2.2l-21.1-12.8v-30l30,18.2l30-18.2v30L113,132.7c-0.9-1-2.2-1.7-3.8-1.7
+	                c-2.8,0-5,2.2-5,5s2.2,5,5,5s5-2.2,5-5c0-0.3,0-0.7-0.1-1l28.1-17L142.2,115L142.2,115z M139.2,83.8l-30,18.2l-30-18.2v-0.6
+	                l30-18.2l30,18.2V83.8z"></path>
+	        </g>
+	        <filter id="shadow-0">
+		        <feColorMatrix type="matrix" result="color" values="0 0 0 0 0
+		              0 0 0 0.9 0
+		              0 0 0 0.9 0
+		              0 0 0 1 0">
+		        </feColorMatrix>
+		        <feGaussianBlur in="color" stdDeviation="4" result="blur"></feGaussianBlur>
+		        <feOffset in="blur" dx="0" dy="0" result="offset"></feOffset>
+		        <feMerge>
+			        <feMergeNode in="bg"></feMergeNode>
+			        <feMergeNode in="offset"></feMergeNode>
+			        <feMergeNode in="SourceGraphic"></feMergeNode>
+		        </feMerge>
+	        </filter>
+	    </defs>
+	    <g id="test" filter="url(#shadow-0)">
+	        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#kcvm" x="0" y="0"></use>
+	    </g>
+	</svg>
+	<h3>7、创建svg文案</h3>
+	<svg width="220" height="220">
+		<defs>
+			<filter id="shadow-1">
+				<feGaussianBlur in="SourceAlpha" stdDeviation="1"></feGaussianBlur>
+	        	<!-- <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"></feGaussianBlur>
+	        	<feOffset in="blur" dx="0" dy="0" result="offset"></feOffset>
+		        <feMerge>
+			        <feMergeNode in="offset"></feMergeNode>
+			        <feMergeNode in="SourceGraphic"></feMergeNode>
+		        </feMerge> -->
+	        </filter>
+		</defs>
+		<text x="0" y="15" fill="red" filter="url(#shadow-1)">I love Svg</text>
+	</svg>
+	<h3>8、高斯模糊垂直效果</h3>
+	<svg width="37px" height="139px" viewBox="0 0 37 139" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	    <desc>不知原理</desc>
+	    <defs>
+	        <filter x="-111.6%" y="-48.8%" width="323.1%" height="197.6%" filterUnits="objectBoundingBox" id="filter-shadows-2">
+	            <feGaussianBlur stdDeviation="9.56333214e-16 15.6181066" in="SourceGraphic"></feGaussianBlur>
+	        </filter>
+	    </defs>
+	    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="69" font-family=".PingFang-SC-Medium, PingFang SC" font-weight="bold">
+	        <g id="Artboard" transform="translate(-115.000000, -79.000000)" fill="#000000">
+	            <text id="8" filter="url(#filter-shadows-2)">
+	                <tspan x="113" y="173">84</tspan>
+	            </text>
+	        </g>
+	    </g>
+	</svg>
+	<h3>9、svg路径编辑器</h3>
+	<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+		<path d="M150 0 L75 200 L225 200 Z" />
+	</svg>
+	<h3>10、svg小icon</h3>
+	<svg style="display: none;">
+        <symbol viewBox="0 0 24 24" id="heart">
+            <path fill="#E86C60" d="M17,0c-1.9,0-3.7,0.8-5,2.1C10.7,0.8,8.9,0,7,0C3.1,0,0,3.1,0,7c0,6.4,10.9,15.4,11.4,15.8 c0.2,0.2,0.4,0.2,0.6,0.2s0.4-0.1,0.6-0.2C13.1,22.4,24,13.4,24,7C24,3.1,20.9,0,17,0z"></path>
+        </symbol>
+    </svg>
+    <svg>
+        <use xlink:href="#heart"/> <!-- this is our visible icon -->
+    </svg>
+    <h3>10、svg小图形绘制</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" id="svg" class="svg" viewBox="0 0 960 480" preserveAspectRatio="xMinYMin meet">
+        <path fill="#B4BEC8" stroke="#B4BEC8" stroke-width="2px" stroke-miterlimit="10" d="M570.14 440.2l-29.165-28.99c-7.103-8.5-6.152-36.718-6.02-40.665H425.048c.133 3.947 1.082 32.164-6.018 40.666l-29.166 28.99c-1.237 1.404-1.712 2.505-1.623 3.37h-.054c.76 7.727 6.664 6.332 13.607 6.332H558.01c6.696 0 12.412 1.27 13.493-5.56.58-.953.274-2.282-1.364-4.14z" style="fill-opacity: 1; stroke-opacity: 0; -webkit-transition: fill-opacity 1s ease-in-out, stroke-opacity 1s ease-in-out; transition: fill-opacity 1s ease-in-out, stroke-opacity 1s ease-in-out; stroke-dasharray: 474.095184326172px, 474.095184326172px; stroke-dashoffset: 0px;"></path>
+ 
+        <path fill="#C8D2DC" stroke="#C8D2DC" stroke-width="2px" stroke-miterlimit="10" d="M727.488 355.125c0 8.514-6.597 15.42-14.738 15.42h-465.5c-8.14 0-14.74-6.906-14.74-15.42V45.42c0-8.517 6.6-15.42 14.74-15.42h465.5c8.142 0 14.738 6.903 14.738 15.42v309.705z" style="fill-opacity: 1; stroke-opacity: 0; -webkit-transition: fill-opacity 1s ease-in-out, stroke-opacity 1s ease-in-out; transition: fill-opacity 1s ease-in-out, stroke-opacity 1s ease-in-out; stroke-dasharray: 1645.18310546875px, 1645.18310546875px; stroke-dashoffset: 0px;"></path>
+ 
+        <path fill="#fff" stroke="#C8D2DC" stroke-width="2px" stroke-miterlimit="10" d="M489.01 343.713c-.042-4.223 3.447-6.254 3.605-6.352-1.963-2.866-5.018-3.263-6.102-3.31-2.602-.26-5.074 1.53-6.39 1.53s-3.356-1.49-5.506-1.448c-2.836.04-5.445 1.645-6.907 4.182-2.942 5.11-.75 12.672 2.116 16.814 1.4 2.02 3.072 4.305 5.268 4.22 2.114-.08 2.913-1.362 5.467-1.362 2.556 0 3.274 1.363 5.51 1.322 2.273-.04 3.716-2.064 5.105-4.098 1.61-2.35 2.273-4.63 2.313-4.748-.05-.02-4.434-1.7-4.48-6.75M484.807 331.31c1.168-1.41 1.953-3.37 1.738-5.327-1.68.068-3.713 1.12-4.916 2.53-1.08 1.247-2.027 3.245-1.77 5.16 1.87.143 3.784-.95 4.947-2.362" style="fill-opacity: 1; stroke-opacity: 0; -webkit-transition: fill-opacity 1s ease-in-out, stroke-opacity 1s ease-in-out; transition: fill-opacity 1s ease-in-out, stroke-opacity 1s ease-in-out; stroke-dasharray: 115.244583129883px, 115.244583129883px; stroke-dashoffset: 0px;"></path>
+ 
+        <path fill="#3C4650" stroke="#3C4650" stroke-width="2px" stroke-miterlimit="10" d="M727.488 315.527V45.982c0-8.828-6.597-15.982-14.738-15.982h-465.5c-8.14 0-14.74 7.155-14.74 15.982v269.545H727.49z" style="fill-opacity: 1; stroke-opacity: 0; -webkit-transition: fill-opacity 1s ease-in-out, stroke-opacity 1s ease-in-out; transition: fill-opacity 1s ease-in-out, stroke-opacity 1s ease-in-out; stroke-dasharray: 1547.85571289063px, 1547.85571289063px; stroke-dashoffset: 0px;"></path>
+ 
+        <path fill="#141E28" stroke="#141E28" stroke-width="2px" stroke-miterlimit="10" d="M251.2 48.887h457.205v245.52H251.2z" style="fill-opacity: 1; stroke-opacity: 0; -webkit-transition: fill-opacity 1s ease-in-out, stroke-opacity 1s ease-in-out; transition: fill-opacity 1s ease-in-out, stroke-opacity 1s ease-in-out; stroke-dasharray: 1405.44995117188px, 1405.44995117188px; stroke-dashoffset: 0px;"></path>
+      </svg>
+	<script type="text/javascript"></script>
+</body>
+</html>
